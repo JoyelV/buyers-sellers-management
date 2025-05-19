@@ -87,7 +87,7 @@ console.log('Project:', project);
     };
 
     fetchProject();
-  }, [projectId, user]);
+  }, [projectId, user,API_URL]);
 
   const handleBidSubmit = async (e: FormEvent) => {
     e.preventDefault();
