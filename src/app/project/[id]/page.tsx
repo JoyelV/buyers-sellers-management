@@ -29,8 +29,8 @@ interface Bid {
 export default function ProjectDetails() {
   const [project, setProject] = useState<Project | null>(null);
   const [bidAmount, setBidAmount] = useState('');
-  const [bidMessage, setBidMessage] = useState(''); // Add state for message
-  const [editingBid, setEditingBid] = useState<Bid | null>(null); // Track if editing a bid
+  const [bidMessage, setBidMessage] = useState('');
+  const [editingBid, setEditingBid] = useState<Bid | null>(null);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const { user } = useAuth();
@@ -55,7 +55,6 @@ export default function ProjectDetails() {
         });
         setProject(response.data.project);
 
-        // Check if the current user has already placed a bid
         if (user) {
           const existingBid = response.data.project.bids.find(
             (bid: Bid) => bid.seller.id === user.id
@@ -101,7 +100,6 @@ export default function ProjectDetails() {
 
       let response;
       if (editingBid) {
-        // Update existing bid
         response = await axios.put(
           `${API_URL}/project/bid`,
           { bidId: editingBid.id, amount, message: bidMessage },
@@ -109,7 +107,6 @@ export default function ProjectDetails() {
         );
         setSuccess('Bid updated successfully!');
       } else {
-        // Create new bid
         response = await axios.post(
           `${API_URL}/project/bid`,
           { projectId: parseInt(projectId as string), amount, message: bidMessage },
@@ -117,17 +114,15 @@ export default function ProjectDetails() {
         );
         setSuccess('Bid placed successfully!');
       }
-      console.log(response,"response from bid post")
+console.log(response)
       setBidAmount('');
       setBidMessage('');
 
-      // Refresh project data to show the updated/new bid
       const updatedProject = await axios.get(`${API_URL}/project/${projectId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setProject(updatedProject.data.project);
 
-      // Update editing state if a new bid was placed
       if (!editingBid) {
         const newBid = updatedProject.data.project.bids.find(
           (bid: Bid) => bid.seller.id === user.id
@@ -144,7 +139,41 @@ export default function ProjectDetails() {
     }
   };
 
-  // Cancel editing and reset form
+  // Handle bid deletion
+  const handleDeleteBid = async (bidId: number) => {
+    if (!confirm('Are you sure you want to delete your bid?')) return;
+
+    setError('');
+    setSuccess('');
+
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setError('Not authenticated. Please log in.');
+        return;
+      }
+
+      await axios.delete(`${API_URL}/project/bid`, {
+        headers: { Authorization: `Bearer ${token}` },
+        data: { bidId },
+      });
+
+      setSuccess('Bid deleted successfully!');
+      setEditingBid(null);
+      setBidAmount('');
+      setBidMessage('');
+
+      // Refresh project data
+      const updatedProject = await axios.get(`${API_URL}/project/${projectId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setProject(updatedProject.data.project);
+    } catch (err) {
+      const error = err as { response?: { data?: { error: string } } };
+      setError(error.response?.data?.error || 'Failed to delete bid');
+    }
+  };
+
   const handleCancelEdit = () => {
     setEditingBid(null);
     setBidAmount('');
@@ -246,7 +275,7 @@ export default function ProjectDetails() {
           ) : (
             <div className="grid gap-4">
               {project.bids.map((bid) => (
-                <div key={bid.id} className="border p-4 rounded-md">
+                <div key={bid.id} className="border p-4 rounded-md relative">
                   <p>
                     <strong>Amount:</strong> ${bid.amount}
                   </p>
@@ -262,6 +291,14 @@ export default function ProjectDetails() {
                     <strong>Placed on:</strong>{' '}
                     {new Date(bid.createdAt).toLocaleDateString()}
                   </p>
+                  {user && user.id === bid.seller.id && isBiddingOpen && (
+                    <button
+                      onClick={() => handleDeleteBid(bid.id)}
+                      className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600"
+                    >
+                      Delete Bid
+                    </button>
+                  )}
                 </div>
               ))}
             </div>
