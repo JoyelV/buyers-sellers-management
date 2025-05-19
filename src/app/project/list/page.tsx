@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Link from 'next/link'; // Add Link
-//import { useAuth } from '../../../lib/authContext';
+import { useAuth } from '../../../lib/authContext';
 import ProtectedRoute from '../../../components/ProtectedRoute';
 
 interface Project {
@@ -20,7 +20,7 @@ interface Project {
 export default function ProjectList() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [error, setError] = useState('');
-  //const { user } = useAuth();
+  const { user } = useAuth();
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
@@ -45,6 +45,10 @@ export default function ProjectList() {
 
     fetchProjects();
   });
+
+  if (!user) {
+    return <div>Go to Login page...</div>;
+  }
 
   return (
     <ProtectedRoute requireAuth={true} redirectTo="/login">

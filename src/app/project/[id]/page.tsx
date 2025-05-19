@@ -51,8 +51,8 @@ export default function ProjectDetails() {
   const params = useParams();
   const projectId = params.id;
   const fileInputRef = useRef<HTMLInputElement>(null);
-console.log('User:', user);
-console.log('Project:', project);
+  console.log('User:', user);
+  console.log('Project:', project);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
@@ -256,10 +256,10 @@ const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
       const formData = new FormData();
       formData.append('projectId', projectId as string);
       formData.append('file', file!);
-console.log('FormData contents:');
-for (const [key, value] of formData.entries()) {
-  console.log(`${key}:`, value);
-}
+      console.log('FormData contents:');
+      for (const [key, value] of formData.entries()) {
+        console.log(`${key}:`, value);
+      }
       const response = await axios.post(`${API_URL}/project/deliver`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -323,6 +323,10 @@ for (const [key, value] of formData.entries()) {
     setBidAmount('');
     setBidMessage('');
   };
+
+  if (!user) {
+    return <div>Go to Login page...</div>;
+  }
 
   if (!project) {
     return (
