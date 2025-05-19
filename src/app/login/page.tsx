@@ -29,7 +29,15 @@ export default function Login() {
         password,
       });
       await login(response.data.token);
-      toast.success('Login successful! Redirecting to dashboard...');
+      toast.success("Login successful!", {
+        duration: 1000,
+        position: "bottom-center",
+        style: {
+          background: "#059669",
+          color: "#fff",
+          border: "1px solid #047857",
+        }
+      });
     } catch (err) {
       const error = err as { response?: { data?: { error: string } } };
       setError(error.response?.data?.error || 'Something went wrong');
