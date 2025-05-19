@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../../lib/authContext';
 import ProtectedRoute from '../../../components/ProtectedRoute';
+import toast from 'react-hot-toast';
 
 export default function CreateProject() {
   const [title, setTitle] = useState('');
@@ -54,11 +55,17 @@ export default function CreateProject() {
         }
       );
       console.log(response,"response");
-      
+
+      if (!response) {
+        throw new Error('Failed to create project');
+      }
+
+      toast.success('Project created successfully!');
       router.push('/project/list');
     } catch (err) {
       const error = err as { response?: { data?: { error: string } } };
       setError(error.response?.data?.error || 'Failed to create project');
+      toast.error('Failed to create project. Please try again.');
     }
   };
 

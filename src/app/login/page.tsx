@@ -4,6 +4,7 @@ import { useState, FormEvent } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../lib/authContext';
 import ProtectedRoute from '../../components/ProtectedRoute';
+import toast from 'react-hot-toast';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -28,9 +29,11 @@ export default function Login() {
         password,
       });
       await login(response.data.token);
+      toast.success('Login successful! Redirecting to dashboard...');
     } catch (err) {
       const error = err as { response?: { data?: { error: string } } };
       setError(error.response?.data?.error || 'Something went wrong');
+      toast.error('Failed to login. Please check your credentials.');
     }
   };
 
