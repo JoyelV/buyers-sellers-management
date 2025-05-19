@@ -2,12 +2,21 @@
 
 import { useAuth } from '../../lib/authContext';
 import ProtectedRoute from '../../components/ProtectedRoute';
-
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 export default function Dashboard() {
   const { user } = useAuth();
+  const router = useRouter();
+// Redirect to login if user is not authenticated
+  useEffect(() => {
+    if (!user) {
+      router.push('/login');
+    }
+  }, [user, router]);
 
+  // Show a loading state while checking user authentication
   if (!user) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   return (
