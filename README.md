@@ -1,36 +1,156 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Project Bidding Platform - Frontend
+This repository contains the frontend of the Project Bidding Platform, a web application that connects buyers and sellers for project-based bidding. Buyers can create projects, sellers can place bids with estimated completion times, and buyers can select the best bid. The frontend is built with Next.js and deployed on Vercel.
 
-## Getting Started
+## Table of Contents
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Approach](#approach)
+- [Project Structure](#project-structure)
+- [Setup Instructions](#setup-instructions)
+  - [Prerequisites](#prerequisites)
+  - [Local Setup](#local-setup)
+  - [Deployment (Vercel)](#deployment-vercel)
+  - [Environment Variables](#environment-variables)
+- [Usage](#usage)
+- [Related Repositories](#related-repositories)
+- [Contributing](#contributing)
+- [License](#license)
 
-First, run the development server:
+## Features
+- **User Authentication**: Register, login, and logout with role-based access (buyer/seller).
+- **Project Creation**: Buyers can create projects with titles and descriptions.
+- **Bidding System**: Sellers can place bids, specifying bid amount and estimated completion time.
+- **Bid Selection**: Buyers can view bids and select one, triggering a notification to the seller.
+- **Toast Notifications**: In-app success/error messages using React Hot Toast (e.g., "Bid placed successfully!").
+- **Professional UI**: Responsive design with light/dark mode, styled with Tailwind CSS.
+- **Role-Based Navigation**: Dynamic UI based on user role (e.g., "Place a Bid" for sellers, "Select Bid" for buyers).
+- **Loading/Error States**: Polished loading spinners and error messages for better UX.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Tech Stack
+- **Next.js**: React framework for server-side rendering, routing, and API routes.
+- **Tailwind CSS**: Utility-first CSS framework for styling.
+- **React Hot Toast**: Lightweight toast notifications for user feedback.
+- **Vercel**: Hosting platform with automatic scaling and deployment.
+
+## Approach
+The frontend was designed with a focus on user experience and modularity:
+- **Modular Components**: Reusable components like `NavBar` and `ProtectedRoute` for consistency.
+- **State Management**: Used React Context (`authContext`) for managing user authentication state.
+- **UI/UX**: Implemented a professional design with Tailwind CSS, including light/dark mode support, responsive layouts, and toast notifications for feedback.
+- **API Integration**: Fetches data from the backend API (e.g., projects, bids) and handles user actions (e.g., placing bids, selecting bids).
+- **Error Handling**: Added loading spinners, error states, and authentication redirects to enhance usability.
+
+## Project Structure
+```
+.
+├── app/
+│   ├── globals.css        # Global styles (Tailwind CSS and custom styles)
+│   └── layout.tsx         # Root layout with NavBar, AuthProvider, and Toaster
+├── components/
+│   ├── NavBar.tsx         # Navigation bar with role-based links and logout
+│   └── ProtectedRoute.tsx # Component to protect routes based on authentication
+├── lib/
+│   └── authContext.tsx    # Authentication context for managing user state
+├── pages/
+│   ├── projects/
+│   │   ├── [id]/
+│   │   │   ├── bid.tsx    # Form for sellers to place a bid with completion time
+│   │   │   └── index.tsx  # Project details page (view bids, select bid)
+│   │   └── new.tsx        # Form to create a new project
+│   ├── login.tsx          # Login page
+│   ├── register.tsx       # Registration page
+│   └── dashboard.tsx      # Dashboard for authenticated users
+├── public/                # Static assets (e.g., images)
+├── tailwind.config.js     # Tailwind CSS configuration
+├── package.json           # Dependencies and scripts
+└── README.md              # This file
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Setup Instructions
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Prerequisites
+- **Node.js**: Version 20.x (specified in `package.json` engines).
+- **npm**: Version 10.x (specified in `package.json` engines).
+- **Vercel CLI**: For deployment.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Local Setup
+1. **Clone the Repository**:
+   ```bash
+   git clone <frontend-repo-url>
+   cd Project-Bidding-Frontend
+   ```
 
-## Learn More
+2. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+3. **Set Environment Variables**:
+   Create a `.env.local` file in the root directory and add:
+   ```
+   NEXT_PUBLIC_API_URL=https://project-bidding-backend-e8985cdcf68d.herokuapp.com/api
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. **Run Locally**:
+   ```bash
+   npm run dev
+   ```
+   - The app will be available at `http://localhost:3000`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Deployment (Vercel)
+1. **Log in to Vercel**:
+   ```bash
+   vercel login
+   ```
 
-## Deploy on Vercel
+2. **Deploy the App**:
+   ```bash
+   vercel --prod
+   ```
+   - Vercel will provide a URL (e.g., `https://bidding-system-frontend.vercel.app/`).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. **Set Environment Variables in Vercel**:
+   - Go to the Vercel dashboard > Settings > Environment Variables.
+   - Add:
+     ```
+     NEXT_PUBLIC_API_URL=https://project-bidding-backend-e8985cdcf68d.herokuapp.com/api
+     ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Environment Variables
+| Variable             | Description                              | Example Value                                  |
+|----------------------|------------------------------------------|------------------------------------------------|
+| `NEXT_PUBLIC_API_URL` | URL of the backend API                  | `https://project-bidding-backend-e8985cdcf68d.herokuapp.com/api` |
+
+## Usage
+1. **Register/Login**:
+   - Visit `/register` or `/login` to create an account or log in.
+   - Choose a role: `buyer` (to create projects) or `seller` (to bid on projects).
+
+2. **Create a Project (Buyer)**:
+   - Navigate to `/projects/new`.
+   - Enter a title and description, then submit.
+
+3. **Place a Bid (Seller)**:
+   - Go to a project details page (e.g., `/projects/1`).
+   - Click "Place a Bid", enter your bid amount and estimated completion time, then submit.
+
+4. **Select a Bid (Buyer)**:
+   - On the project details page, view all bids and their completion times.
+   - Click "Select Bid" to choose a bid and notify the seller.
+
+## Related Repositories
+- **Backend**: [Project-Bidding-Backend](#) (replace with the actual repo URL)
+- **Deployed App**:
+  - Frontend: [https://bidding-system-frontend.vercel.app/](https://bidding-system-frontend.vercel.app)
+  - Backend: [https://project-bidding-backend-e8985cdcf68d.herokuapp.com](https://project-bidding-backend-e8985cdcf68d.herokuapp.com)
+
+## Contributing
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/your-feature`).
+3. Make your changes and commit (`git commit -m "Add your feature"`).
+4. Push to your branch (`git push origin feature/your-feature`).
+5. Create a pull request.
+
+## License
+This project is licensed under the MIT License.
+```
