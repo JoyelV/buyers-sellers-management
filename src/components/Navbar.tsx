@@ -16,6 +16,14 @@ export default function NavBar() {
           {user ? (
             <>
               <span className="mr-4">Welcome, {user.name} ({user.role})</span>
+              {user.role === 'BUYER' && (
+                <Link href="/project/create" className="mr-4 hover:underline">
+                  Create Project
+                </Link>
+              )}
+              <Link href="/project/list" className="mr-4 hover:underline">
+                View Projects
+              </Link>
               <button
                 onClick={logout}
                 className="bg-red-500 px-4 py-2 rounded-md hover:bg-red-600"
