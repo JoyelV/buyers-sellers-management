@@ -65,7 +65,7 @@ export default function CreateProject() {
 
       toast.success("Project created successfully!", {
         duration: 2000,
-        position: "bottom-center",
+        position: "top-right",
         style: {
           background: "#059669",
           color: "#fff",

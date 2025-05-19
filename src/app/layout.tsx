@@ -14,9 +14,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <NavBar />
           <main className="container mx-auto p-4">{children}</main>
           <Toaster
-            position="top-right" // Position of the toast notifications
+            position="top-right" 
             toastOptions={{
-              duration: 5000, // Duration in milliseconds (5 seconds)
+              duration: 5000, 
               style: {
                 background: '#333',
                 color: '#fff',
@@ -25,12 +25,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               },
               success: {
                 style: {
-                  background: '#10B981', // Green background for success
+                  background: '#10B981', 
                 },
               },
               error: {
                 style: {
-                  background: '#EF4444', // Red background for errors
+                  background: '#EF4444', 
                 },
               },
             }}

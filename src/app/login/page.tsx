@@ -31,7 +31,7 @@ export default function Login() {
       await login(response.data.token);
       toast.success("Login successful!", {
         duration: 1000,
-        position: "bottom-center",
+        position: "top-right",
         style: {
           background: "#059669",
           color: "#fff",

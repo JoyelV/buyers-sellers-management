@@ -46,8 +46,15 @@ export default function ProjectList() {
     fetchProjects();
   });
 
-  if (!user) {
-    return <div>Go to Login page...</div>;
+   if (!user) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <div className="bg-white p-6 rounded-lg shadow-lg text-center max-w-md w-full">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Authentication Required</h2>
+          <p className="text-gray-600 mb-4">You need to be logged in to access this page.</p>
+        </div>
+      </div>
+    );
   }
 
   return (
