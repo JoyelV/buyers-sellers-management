@@ -2,7 +2,7 @@
 
 import { useState, useEffect, FormEvent } from 'react';
 import axios from 'axios';
-import { useParams } from 'next/navigation';
+import {  useParams } from 'next/navigation';
 import { useAuth } from '../../../lib/authContext';
 import ProtectedRoute from '../../../components/ProtectedRoute';
 
@@ -15,6 +15,8 @@ interface Project {
   deadline: string;
   buyer: { id: number; name: string; email: string };
   bids: Bid[];
+  status: string; // Add status
+  selectedBid?: Bid | null; // Add selectedBid
   createdAt: string;
 }
 
@@ -114,7 +116,7 @@ export default function ProjectDetails() {
         );
         setSuccess('Bid placed successfully!');
       }
-console.log(response)
+      console.log(response,"response")
       setBidAmount('');
       setBidMessage('');
 
@@ -163,7 +165,6 @@ console.log(response)
       setBidAmount('');
       setBidMessage('');
 
-      // Refresh project data
       const updatedProject = await axios.get(`${API_URL}/project/${projectId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -171,6 +172,38 @@ console.log(response)
     } catch (err) {
       const error = err as { response?: { data?: { error: string } } };
       setError(error.response?.data?.error || 'Failed to delete bid');
+    }
+  };
+
+  // Handle bid selection
+  const handleSelectBid = async (bidId: number) => {
+    if (!confirm('Are you sure you want to select this bid? This will assign the project to the seller.')) return;
+
+    setError('');
+    setSuccess('');
+
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setError('Not authenticated. Please log in.');
+        return;
+      }
+
+      await axios.post(
+        `${API_URL}/project/select-bid`,
+        { projectId: parseInt(projectId as string), bidId },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      setSuccess('Bid selected successfully! The seller has been notified.');
+      
+      const updatedProject = await axios.get(`${API_URL}/project/${projectId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setProject(updatedProject.data.project);
+    } catch (err) {
+      const error = err as { response?: { data?: { error: string } } };
+      setError(error.response?.data?.error || 'Failed to select bid');
     }
   };
 
@@ -213,10 +246,20 @@ console.log(response)
           <p>
             <strong>Created:</strong> {new Date(project.createdAt).toLocaleDateString()}
           </p>
+          <p>
+            <strong>Status:</strong> {project.status}
+          </p>
+          {project.selectedBid && (
+            <div className="mt-2 p-4 bg-green-100 rounded-md">
+              <p>
+                <strong>Selected Bid:</strong> ${project.selectedBid.amount} by {project.selectedBid.seller.name} ({project.selectedBid.seller.email})
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Bidding Form for Sellers */}
-        {user && user.role === 'SELLER' && (
+        {user && user.role === 'SELLER' && project.status === 'OPEN' && (
           <div className="bg-white p-6 rounded-lg shadow-md mb-6">
             <h2 className="text-xl font-bold mb-4">{editingBid ? 'Edit Your Bid' : 'Place a Bid'}</h2>
             {isBiddingOpen ? (
@@ -291,12 +334,20 @@ console.log(response)
                     <strong>Placed on:</strong>{' '}
                     {new Date(bid.createdAt).toLocaleDateString()}
                   </p>
-                  {user && user.id === bid.seller.id && isBiddingOpen && (
+                  {user && user.id === bid.seller.id && isBiddingOpen && project.status === 'OPEN' && (
                     <button
                       onClick={() => handleDeleteBid(bid.id)}
                       className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600"
                     >
                       Delete Bid
+                    </button>
+                  )}
+                  {user && user.role === 'BUYER' && user.id === project.buyer.id && project.status === 'OPEN' && (
+                    <button
+                      onClick={() => handleSelectBid(bid.id)}
+                      className="absolute bottom-2 right-2 bg-green-500 text-white px-2 py-1 rounded-md hover:bg-green-600"
+                    >
+                      Select Bid
                     </button>
                   )}
                 </div>
