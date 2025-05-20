@@ -46,22 +46,24 @@ Project-Bidding-Frontend/
 ├── app/
 │   ├── globals.css                # Global styles (Tailwind CSS and custom styles)
 │   └── layout.tsx                 # Root layout with NavBar, AuthProvider, and Toaster
+|   dashboard/
+│   ├── page.tsx                   # Dashboard with welcome message
+|   login/
+│   ├── page.tsx                   # Login page with JWT authorization
+|   project/
+|   |     ├── create/
+│   |         ├── page.tsx         # Create form for project bid creation
+|   |     ├── [id]/
+│   |         ├── page.tsx         # project detailed page
+|   |     ├── list/
+│   |         ├── page.tsx         # List of projects (including completed,in progress,open)
+|   signup/
+│   ├── page.tsx                   # Signup page with JWT authentication
 ├── components/
 │   ├── NavBar.tsx                 # Navigation bar with role-based links and logout
 │   └── ProtectedRoute.tsx         # Component to protect routes based on authentication
 ├── lib/
 │   └── authContext.tsx            # Authentication context for managing user state
-├── pages/
-│   ├── projects/
-│   │   ├── [id]/
-│   │   │   └── page.tsx           # Project details page (view bids, select bid)
-│   │   └── create/
-|   |       └── page.tsx           # Form to create a new project
-│   │   └── list/
-|   |       └── page.tsx           # List of projects (completed,In progress,pending)
-│   ├── login.tsx                  # Login page
-│   ├── signup.tsx                 # Registration page
-│   └── dashboard.tsx              # Dashboard for authenticated users
 ├── public/                        # Static assets (e.g., images)
 ├── tailwind.config.js             # Tailwind CSS configuration
 ├── package.json                   # Dependencies and scripts
