@@ -325,17 +325,13 @@ const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     setBidMessage('');
   };
 
-  if (!user) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <div className="bg-white p-6 rounded-lg shadow-lg text-center max-w-md w-full">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Authentication Required</h2>
-          <p className="text-gray-600 mb-4">You need to be logged in to access this page.</p>
-        </div>
-      </div>
-    );
-  }
-
+if (!user) {
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <ClipLoader color="#3498db" size={50} />
+    </div>
+  );
+}
 
 if (!project) {
   return (
