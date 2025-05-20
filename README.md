@@ -22,9 +22,9 @@ This repository contains the frontend of the Project Bidding Platform, a web app
 - **Bidding System**: Sellers can place bids, specifying bid amount and estimated completion time.
 - **Bid Selection**: Buyers can view bids and select one, triggering a notification mail to the seller.
 - **Toast Notifications**: In-app success/error messages using React Hot Toast (e.g., "Bid placed successfully!").
-- **Professional UI**: Responsive design with light/dark mode, styled with Tailwind CSS.
+- **Professional UI**: Responsive design with light/dark mode,Hamburger Navbar, styled with Tailwind CSS.
 - **Role-Based Navigation**: Dynamic UI based on user role (e.g., "Place a Bid" for sellers, "Select Bid" for buyers).
-- **Loading/Error States**: Polished loading and error messages for better UX.
+- **Loading/Error States**: Polished loading spinners and error messages for better UX.
 
 ## Tech Stack
 - **Next.js**: React framework for server-side rendering, routing, and API routes.
