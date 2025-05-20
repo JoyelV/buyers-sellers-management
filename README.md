@@ -141,7 +141,7 @@ Project-Bidding-Frontend/
    - Click "Select Bid" to choose a bid and notify the seller.
 
 ## Related Repositories
-- **Backend**: [Project-Bidding-Backend](#) (replace with the actual repo URL)
+- **Backend**: [Project-Bidding-Backend](https://github.com/JoyelV/bidding-management-backend.git) 
 - **Deployed App**:
   - Frontend: [https://bidding-system-frontend.vercel.app/](https://bidding-system-frontend.vercel.app)
   - Backend: [https://project-bidding-backend-e8985cdcf68d.herokuapp.com](https://project-bidding-backend-e8985cdcf68d.herokuapp.com)
