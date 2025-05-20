@@ -20,11 +20,11 @@ This repository contains the frontend of the Project Bidding Platform, a web app
 - **User Authentication**: Register, login, and logout with role-based access (buyer/seller).
 - **Project Creation**: Buyers can create projects with titles and descriptions.
 - **Bidding System**: Sellers can place bids, specifying bid amount and estimated completion time.
-- **Bid Selection**: Buyers can view bids and select one, triggering a notification to the seller.
+- **Bid Selection**: Buyers can view bids and select one, triggering a notification mail to the seller.
 - **Toast Notifications**: In-app success/error messages using React Hot Toast (e.g., "Bid placed successfully!").
 - **Professional UI**: Responsive design with light/dark mode, styled with Tailwind CSS.
 - **Role-Based Navigation**: Dynamic UI based on user role (e.g., "Place a Bid" for sellers, "Select Bid" for buyers).
-- **Loading/Error States**: Polished loading spinners and error messages for better UX.
+- **Loading/Error States**: Polished loading and error messages for better UX.
 
 ## Tech Stack
 - **Next.js**: React framework for server-side rendering, routing, and API routes.
@@ -41,30 +41,31 @@ The frontend was designed with a focus on user experience and modularity:
 - **Error Handling**: Added loading spinners, error states, and authentication redirects to enhance usability.
 
 ## Project Structure
-```
-.
+Project-Bidding-Frontend/
 ├── app/
-│   ├── globals.css        # Global styles (Tailwind CSS and custom styles)
-│   └── layout.tsx         # Root layout with NavBar, AuthProvider, and Toaster
+│   ├── globals.css                # Global styles (Tailwind CSS and custom styles)
+│   └── layout.tsx                 # Root layout with NavBar, AuthProvider, and Toaster
 ├── components/
-│   ├── NavBar.tsx         # Navigation bar with role-based links and logout
-│   └── ProtectedRoute.tsx # Component to protect routes based on authentication
+│   ├── NavBar.tsx                 # Navigation bar with role-based links and logout
+│   └── ProtectedRoute.tsx         # Component to protect routes based on authentication
 ├── lib/
-│   └── authContext.tsx    # Authentication context for managing user state
+│   └── authContext.tsx            # Authentication context for managing user state
 ├── pages/
 │   ├── projects/
 │   │   ├── [id]/
-│   │   │   ├── bid.tsx    # Form for sellers to place a bid with completion time
-│   │   │   └── index.tsx  # Project details page (view bids, select bid)
-│   │   └── new.tsx        # Form to create a new project
-│   ├── login.tsx          # Login page
-│   ├── register.tsx       # Registration page
-│   └── dashboard.tsx      # Dashboard for authenticated users
-├── public/                # Static assets (e.g., images)
-├── tailwind.config.js     # Tailwind CSS configuration
-├── package.json           # Dependencies and scripts
-└── README.md              # This file
-```
+│   │   │   └── page.tsx           # Project details page (view bids, select bid)
+│   │   └── create/
+|   |       └── page.tsx           # Form to create a new project
+│   │   └── list/
+|   |       └── page.tsx           # List of projects (completed,In progress,pending)
+│   ├── login.tsx                  # Login page
+│   ├── signup.tsx                 # Registration page
+│   └── dashboard.tsx              # Dashboard for authenticated users
+├── public/                        # Static assets (e.g., images)
+├── tailwind.config.js             # Tailwind CSS configuration
+├── package.json                   # Dependencies and scripts
+├── next.config.mjs                # Next.js configuration (if applicable)
+└── README.md                      # Project documentation
 
 ## Setup Instructions
 
@@ -123,11 +124,11 @@ The frontend was designed with a focus on user experience and modularity:
 
 ## Usage
 1. **Register/Login**:
-   - Visit `/register` or `/login` to create an account or log in.
+   - Visit `/signup` or `/login` to create an account or log in.
    - Choose a role: `buyer` (to create projects) or `seller` (to bid on projects).
 
 2. **Create a Project (Buyer)**:
-   - Navigate to `/projects/new`.
+   - Navigate to `/projects/create`.
    - Enter a title and description, then submit.
 
 3. **Place a Bid (Seller)**:
