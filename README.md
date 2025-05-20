@@ -36,7 +36,7 @@ This repository contains the frontend of the Project Bidding Platform, a web app
 The frontend was designed with a focus on user experience and modularity:
 - **Modular Components**: Reusable components like `NavBar` and `ProtectedRoute` for consistency.
 - **State Management**: Used React Context (`authContext`) for managing user authentication state.
-- **UI/UX**: Implemented a professional design with Tailwind CSS, including light/dark mode support, responsive layouts, and toast notifications for feedback.
+- **UI/UX**: Implemented a professional design with Tailwind CSS, responsive layouts, and toast notifications for feedback.
 - **API Integration**: Fetches data from the backend API (e.g., projects, bids) and handles user actions (e.g., placing bids, selecting bids).
 - **Error Handling**: Added loading spinners, error states, and authentication redirects to enhance usability.
 
