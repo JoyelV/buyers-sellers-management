@@ -3,6 +3,7 @@
 import { useEffect, ReactNode, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../lib/authContext';
+import { ClipLoader } from 'react-spinners';
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -41,7 +42,11 @@ export default function ProtectedRoute({ children, requireAuth, redirectTo }: Pr
 
   // Show a loading state while checking auth status
   if (isLoading) {
-    return <div className="container mx-auto p-4">Loading...</div>;
+      return (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <ClipLoader color="#3498db" size={50} />
+    </div>
+  );
   }
 
   // If the user is not authenticated and the route requires auth, don't render children

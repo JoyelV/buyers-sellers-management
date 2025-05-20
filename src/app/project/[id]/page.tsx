@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useParams, useRouter } from 'next/navigation';
 import { useAuth } from '../../../lib/authContext';
 import ProtectedRoute from '../../../components/ProtectedRoute';
+import { ClipLoader } from 'react-spinners';
 
 interface Project {
   id: number;
@@ -335,13 +336,18 @@ const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     );
   }
 
-  if (!project) {
-    return (
-      <div className="container mx-auto p-4">
-        {error ? <p className="text-red-500">{error}</p> : <p className="text-gray-600">Loading project details...</p>}
-      </div>
-    );
-  }
+
+if (!project) {
+  return (
+    <div className="container mx-auto p-4 flex justify-center items-center">
+      {error ? (
+        <p className="text-red-500">{error}</p>
+      ) : (
+        <ClipLoader color="#3498db" size={50} aria-label="Loading project details" />
+      )}
+    </div>
+  );
+}
 
   const deadlineDate = new Date(project.deadline);
   const isBiddingOpen = deadlineDate > new Date();

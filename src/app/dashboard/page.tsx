@@ -4,6 +4,8 @@ import { useAuth } from '../../lib/authContext';
 import ProtectedRoute from '../../components/ProtectedRoute';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { ClipLoader } from 'react-spinners';
+
 export default function Dashboard() {
   const { user } = useAuth();
   const router = useRouter();
@@ -15,9 +17,13 @@ export default function Dashboard() {
   }, [user, router]);
 
   // Show a loading state while checking user authentication
-  if (!user) {
-    return <div>Loading...</div>;
-  }
+if (!user) {
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <ClipLoader color="#3498db" size={50} />
+    </div>
+  );
+}
 
   return (
     <ProtectedRoute requireAuth={true} redirectTo="/login">
