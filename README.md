@@ -41,6 +41,7 @@ The frontend was designed with a focus on user experience and modularity:
 - **Error Handling**: Added loading spinners, error states, and authentication redirects to enhance usability.
 
 ## Project Structure
+```
 Project-Bidding-Frontend/
 ├── app/
 │   ├── globals.css                # Global styles (Tailwind CSS and custom styles)
@@ -66,7 +67,7 @@ Project-Bidding-Frontend/
 ├── package.json                   # Dependencies and scripts
 ├── next.config.mjs                # Next.js configuration (if applicable)
 └── README.md                      # Project documentation
-
+```
 ## Setup Instructions
 
 ### Prerequisites
